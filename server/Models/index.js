@@ -1,6 +1,9 @@
+var fs = require("fs");
+var path = require("path");
+var basename = path.basename(__filename);
 require("dotenv").config();
 const { Sequelize } = require("sequelize");
-const DEVELOPMENT = true;
+var db = {};
 
 const sequelize = new Sequelize(
   process.env.DATABASE,
@@ -12,33 +15,24 @@ const sequelize = new Sequelize(
   }
 );
 
-const Posts = sequelize.import(__dirname + "/Posts");
-const Comments = sequelize.import(__dirname + "/Comments");
-const Users = sequelize.import(__dirname + "/Users");
+fs.readdirSync(__dirname)
+  .filter((file) => {
+    return (
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+    );
+  })
+  .forEach((file) => {
+    var model = sequelize.import(path.join(__dirname, file));
+    db[model.name] = model;
+  });
 
-const initDatabaseConnection = async () => {
-  await sequelize.authenticate();
-  console.log("DB Authenticated!");
+// Object.keys(db).forEach((modelName) => {
+//   if (db[modelName].associate) {
+//     db[modelName].associate(db);
+//   }
+// });
 
-  Users.hasMany(Posts, { as: "posts" });
-  Users.hasMany(Comments, { as: "comments" });
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
-  Comments.belongsTo(Users);
-  Posts.belongsTo(Users);
-
-  if (DEVELOPMENT) {
-    await sequelize.sync({ force: true });
-    let hc = Users.create({
-      firstName: "Harrison",
-      lastName: "Clark",
-      userName: "HarrisonC",
-      email: "harrison.clark99@gmail.com",
-    });
-    Posts.create({ caption: "Hello, World", UsersId: hc.id });
-  }
-
-  await sequelize.sync(); //{ force: true } to clear
-  console.log("Succesfully synced!");
-};
-
-initDatabaseConnection().catch((error) => console.log(error));
+module.exports = db;
