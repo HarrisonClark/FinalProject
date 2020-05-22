@@ -1,10 +1,8 @@
 import React from 'react';
 import Nav from './components/Nav';
-import SinglePost from './components/home/SinglePost';
 import Postfeed from './components/home/Postfeed';
 import ProfilePage from './components/profile/ProfilePage';
 import LoginPage from './components/auth/LoginPage';
-import Loader from './Loader';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Typography } from '@material-ui/core';

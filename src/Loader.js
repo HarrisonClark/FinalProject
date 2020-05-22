@@ -4,10 +4,6 @@ import { CircularProgress, Typography } from '@material-ui/core/';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // display: 'flex',
-    // '& > * + *': {
-    //   marginLeft: theme.spacing(2),
-    // },
     marginTop: '10px',
   },
 }));

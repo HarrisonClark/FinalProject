@@ -27,28 +27,43 @@ const LoginPage = () => {
   };
 
   const content = (
-    <form align="center" className={classes.root}>
-      <TextField
-        required
-        id="outlined-required"
-        label="Username"
-        variant="outlined"
-        onChange={(e) => {
-          setuserName(e.target.value);
-        }}
-      />
-      <TextField
-        required
-        id="outlined-required"
-        label="Password"
-        variant="outlined"
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      />
-      <Button onSubmit={handleSubmit} variant="contained" color="primary">
-        Sign In
-      </Button>
+    <form
+      style={{ direction: 'flex-container' }}
+      align="center"
+      className={classes.root}
+    >
+      <div>
+        <TextField
+          required
+          size="small"
+          id="outlined-required"
+          label="Username"
+          variant="outlined"
+          onChange={(e) => {
+            setuserName(e.target.value);
+          }}
+        />
+        <TextField
+          required
+          size="small"
+          id="outlined-required"
+          label="Password"
+          variant="outlined"
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        />
+      </div>
+      <div>
+        <Button
+          onSubmit={handleSubmit}
+          variant="contained"
+          color="primary"
+          size="small"
+        >
+          Sign In
+        </Button>
+      </div>
     </form>
   );
 
