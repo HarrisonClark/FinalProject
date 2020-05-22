@@ -22,7 +22,7 @@ const Postfeed = () => {
               .doc(post.author)
               .get()
               .then((snapshot) => {
-                return snapshot.data().username;
+                return snapshot.username;
               });
             let newPost = { id: post.id, username, ...post };
             console.log(newPost);
