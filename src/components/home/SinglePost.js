@@ -21,29 +21,23 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SinglePost({ id, username, text, image }) {
+export default function SinglePost({ id, username, text, image, comments }) {
   const classes = useStyles();
   const { uid, authenticated } = useUidContext();
   const [comment, setComment] = useState('');
   const [liked, setLiked] = useState(false);
-
-  // post to API
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!comment) alert('You must enter a comment before posting!');
-    console.log(comment);
-    setComment('');
-  };
-
+  const [allComments, setAllComments] = useState(comments);
   useEffect(() => {
-    db.collection('posts')
-      .doc(id)
-      .get()
-      .then((post) => {
-        let likes = post.data().likes;
-        setLiked(likes.includes(uid));
-      });
-  }, [id, uid]);
+    if (authenticated) {
+      db.collection('posts')
+        .doc(id)
+        .get()
+        .then((post) => {
+          let likes = post.data().likes;
+          setLiked(likes.includes(uid));
+        });
+    }
+  }, [id, uid, authenticated]);
 
   const toggleLike = async () => {
     if (!authenticated) {
@@ -66,6 +60,29 @@ export default function SinglePost({ id, username, text, image }) {
       setLiked(true);
     }
   };
+
+  const AddComment = async (e) => {
+    e.preventDefault();
+    if (!comment) alert('You must enter a comment before posting!');
+
+    console.log(comment);
+    db.collection('posts')
+      .doc(id)
+      .update({ comments: [...comments, { author: uid, message: comment }] });
+
+    setAllComments([...allComments, { author: uid, message: comment }]);
+    setComment('');
+  };
+
+  function Comments() {
+    if (!allComments || allComments.length === 0) {
+      return <div></div>;
+    } else {
+      return allComments.map((c) => {
+        return <li key={c.author}>{c.message}</li>;
+      });
+    }
+  }
 
   return (
     <div align="center">
@@ -94,8 +111,10 @@ export default function SinglePost({ id, username, text, image }) {
             <SendRounded />
           </Button>
         </CardActions>
-
-        <form>
+        <ul style={{ marginBottom: '10px' }}>
+          <Comments />
+        </ul>
+        <form onSubmit={AddComment}>
           <TextField
             // fullWidth
             multiline
@@ -107,10 +126,10 @@ export default function SinglePost({ id, username, text, image }) {
           />
           <Button
             size="small"
+            type="submit"
             variant="contained"
             color="primary"
             text-transform="none"
-            onClick={handleSubmit}
           >
             Post
           </Button>
