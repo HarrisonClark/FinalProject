@@ -65,7 +65,32 @@ export default function SinglePost({ username, text, image }) {
             <SendRounded />
           </Button>
         </CardActions>
-        <form>
+        <div className="flex-container">
+          <div>
+            <TextField
+              // fullWidth
+              multiline
+              variant="outlined"
+              size="small"
+              label="Enter comment..."
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+          </div>
+          <div>
+            <Button
+              size="small"
+              variant="contained"
+              color="primary"
+              text-transform="none"
+              onClick={handleSubmit}
+            >
+              Post
+            </Button>
+          </div>
+        </div>
+
+        {/* <form>
           <TextField
             // fullWidth
             multiline
@@ -77,13 +102,14 @@ export default function SinglePost({ username, text, image }) {
           />
           <Button
             size="small"
+            variant="contained"
             color="primary"
             text-transform="none"
             onClick={handleSubmit}
           >
             Post
           </Button>
-        </form>
+        </form> */}
       </Card>
     </div>
   );
