@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button, Grid, Breadcrumbs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Home, AccountBox, SendRounded } from '@material-ui/icons';
+import firebase from '../firebase';
 
 const Nav = () => {
   const useStyles = makeStyles((theme) => ({
@@ -52,7 +53,13 @@ const Nav = () => {
           <Link to="/login" className={classes.link}>
             Login
           </Link>
-          <Link to="/logout" className={classes.link}>
+          <Link
+            onClick={() => {
+              firebase.auth().signOut();
+            }}
+            to="/logout"
+            className={classes.link}
+          >
             Logout
           </Link>
         </Breadcrumbs>

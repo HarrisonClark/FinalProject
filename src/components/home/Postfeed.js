@@ -52,6 +52,7 @@ const Postfeed = () => {
           text={post.caption}
           image={post.image}
         />
+        <br />
       </li>
     );
   });
@@ -59,7 +60,6 @@ const Postfeed = () => {
   return (
     <div>
       <ul style={{ listStyleType: 'none' }}>{renderedList} </ul>
-      <br />
     </div>
   );
 };
