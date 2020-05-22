@@ -4,6 +4,8 @@ import { Button, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import firebase from '../../firebase';
 import { useUidContext } from '../UidContext';
+import { useHistory } from 'react-router-dom';
+
 const db = firebase.firestore();
 
 const useStyles = makeStyles((theme) => ({
@@ -16,6 +18,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignupPage = () => {
+  let history = useHistory();
+  const { authenticated } = useUidContext();
+  if (authenticated) {
+    history.push('/');
+  }
+
   const classes = useStyles();
 
   const { uid } = useUidContext();
