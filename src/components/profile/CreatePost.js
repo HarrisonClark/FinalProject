@@ -6,7 +6,7 @@ const CreatePost = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(post);
+    console.log('post');
   };
 
   return (
@@ -23,8 +23,7 @@ const CreatePost = () => {
             setPost(e.target.value);
           }}
         />
-        {/* </div>
-      <div> */}
+
         <Button
           style={{ marginLeft: '10px', marginTop: '9px' }}
           size="small"

@@ -10,17 +10,6 @@ const Postfeed = () => {
 
   useEffect(() => {
     setPosts([]);
-    // useEffect(() => {
-    //   if (posts) {
-    //     setPosts(posts.map(post => {
-    //       fetch('/api/user/' + post.userId)
-    //       .then(res => res.json())
-    //       .then(res => {{...post, res.userName}}
-    //         )
-
-    //     }))
-    //   }
-    // }, []);
 
     db.collection('posts')
       .get()
@@ -69,8 +58,8 @@ const Postfeed = () => {
 
   return (
     <div>
-      {' '}
       <ul style={{ listStyleType: 'none' }}>{renderedList} </ul>
+      <br />
     </div>
   );
 };

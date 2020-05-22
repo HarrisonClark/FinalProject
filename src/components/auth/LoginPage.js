@@ -21,9 +21,12 @@ const LoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    console.log(username);
     fetch(`/api/user/:${username}`)
       .then((res) => res.json())
       .then((res) => console.log(res));
+    setuserName('');
+    setPassword('');
   };
 
   const content = (
@@ -31,6 +34,7 @@ const LoginPage = () => {
       style={{ direction: 'flex-container' }}
       align="center"
       className={classes.root}
+      onSubmit={handleSubmit}
     >
       <div>
         <TextField
@@ -39,6 +43,7 @@ const LoginPage = () => {
           id="outlined-required"
           label="Username"
           variant="outlined"
+          value={username}
           onChange={(e) => {
             setuserName(e.target.value);
           }}
@@ -49,18 +54,14 @@ const LoginPage = () => {
           id="outlined-required"
           label="Password"
           variant="outlined"
+          value={password}
           onChange={(e) => {
             setPassword(e.target.value);
           }}
         />
       </div>
       <div>
-        <Button
-          onSubmit={handleSubmit}
-          variant="contained"
-          color="primary"
-          size="small"
-        >
+        <Button type="submit" variant="contained" color="primary" size="small">
           Sign In
         </Button>
       </div>

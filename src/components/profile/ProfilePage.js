@@ -5,12 +5,12 @@ import { Typography } from '@material-ui/core';
 
 const ProfilePage = ({ first, last, username }) => {
   const content = (
-    <div>
+    <div style={{ marginLeft: '10px' }}>
       <Typography variant="h6" gutterBottom align="left" color="primary">
         {first} {last}
       </Typography>
       <Typography variant="subtitle1" gutterBottom align="left" color="primary">
-        Welcome {username}!{' '}
+        Welcome {username}!
       </Typography>
       <br />
       <CreatePost />
