@@ -5,15 +5,24 @@ const Postfeed = () => {
   const [posts, setPosts] = useState(null);
 
   useEffect(() => {
-    // fetch(`/api/posts/`)
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     console.log(res);
-    //     setPosts(res);
-    //   });
-    fetch('/api/posts/')
+    if (posts) {
+      setPosts(posts.map(post => {
+        fetch('/api/user/' + post.userId)
+        .then(res => res.json())
+        .then(res => {{...post, res.userName}}
+          )
+        
+      }))
+    }
+  })
+
+  useEffect(() => {
+    fetch(`/api/posts/`)
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => {
+        console.log(res);
+        setPosts(res);
+      });
   }, []);
 
   if (!posts) {
@@ -24,7 +33,12 @@ const Postfeed = () => {
     return (
       <ul style={{ listStyleType: 'none' }}>
         <li>
-          <SinglePost key={post.id} post={post} />
+          <SinglePost
+            key={post.id}
+            username={post.userId}
+            text={post.caption}
+            image={post.image}
+          />
         </li>
       </ul>
     );
