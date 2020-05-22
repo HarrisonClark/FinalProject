@@ -64,8 +64,8 @@ export default function SinglePost({ id, username, text, image, comments }) {
 
   const AddComment = async (e) => {
     e.preventDefault();
-    if (!comment) alert('You must enter a comment before posting!');
-
+    if (!comment) return alert('You must enter a comment before posting!');
+    if (!authenticated) return alert('You must be logged in to comment!');
     console.log(comment);
     db.collection('posts')
       .doc(id)
