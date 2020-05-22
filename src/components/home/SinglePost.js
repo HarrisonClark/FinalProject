@@ -9,6 +9,7 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  List,
 } from '@material-ui/core';
 import { FavoriteBorder, Favorite, SendRounded } from '@material-ui/icons';
 import firebase from '../../firebase';
@@ -79,7 +80,11 @@ export default function SinglePost({ id, username, text, image, comments }) {
       return <div></div>;
     } else {
       return allComments.map((c) => {
-        return <li key={c.author}>{c.message}</li>;
+        return (
+          <List style={{ listStyleType: 'none' }} key={c.author}>
+            {c.message}
+          </List>
+        );
       });
     }
   }
