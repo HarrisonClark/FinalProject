@@ -4,8 +4,11 @@ import { Button, Grid, Breadcrumbs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Home, AccountBox, SendRounded } from '@material-ui/icons';
 import firebase from '../firebase';
+import { useUidContext } from './UidContext';
 
 const Nav = () => {
+  const { authenticated } = useUidContext();
+
   const useStyles = makeStyles((theme) => ({
     root: {
       marginTop: '10px',
@@ -37,31 +40,40 @@ const Nav = () => {
             Home
             <Home className={classes.icon} />
           </Link>
-          <Link to="/profile" className={classes.link}>
-            Profile
-            <AccountBox className={classes.icon} />
-          </Link>
+          {authenticated ? (
+            <Link to="/profile" className={classes.link}>
+              Profile
+              <AccountBox className={classes.icon} />
+            </Link>
+          ) : (
+            <></>
+          )}
           {/* <Link to="/dm" className={classes.link}>
             DMs
             <SendRounded className={classes.icon} />
           </Link> */}
         </Breadcrumbs>
         <Breadcrumbs aria-label="breadcrumb">
-          <Link to="/signup" className={classes.link}>
-            Sign Up
-          </Link>
-          <Link to="/login" className={classes.link}>
-            Login
-          </Link>
-          <Link
-            onClick={() => {
-              firebase.auth().signOut();
-            }}
-            to="/logout"
-            className={classes.link}
-          >
-            Logout
-          </Link>
+          {authenticated ? (
+            <Link
+              onClick={() => {
+                firebase.auth().signOut();
+              }}
+              to="/logout"
+              className={classes.link}
+            >
+              Logout
+            </Link>
+          ) : (
+            <>
+              <Link to="/signup" className={classes.link}>
+                Sign Up
+              </Link>
+              <Link to="/login" className={classes.link}>
+                Login
+              </Link>
+            </>
+          )}
         </Breadcrumbs>
       </Grid>
     </div>

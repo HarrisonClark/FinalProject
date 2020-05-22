@@ -71,6 +71,7 @@ const LoginPage = () => {
         <TextField
           required
           size="small"
+          type="password"
           id="outlined-required"
           label="Password"
           variant="outlined"
