@@ -7,8 +7,7 @@ const ProfilePage = ({ first, last, username }) => {
     <div>
       {first} {last}
       <br />
-      Welcome {username}!
-      <CreatePost />
+      Welcome {username}!{/* <CreatePost /> */}
     </div>
   );
   return <Paper content={content} />;

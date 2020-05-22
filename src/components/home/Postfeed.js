@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SinglePost from './SinglePost';
 
 const Postfeed = () => {
-  const [posts, setPosts] = useState(['hi', 'bye']);
+  const [posts, setPosts] = useState(null);
 
-  const getPosts = () => {
-    fetch(`/api/posts/`)
+  useEffect(() => {
+    // fetch(`/api/posts/`)
+    //   .then((res) => res.json())
+    //   .then((res) => {
+    //     console.log(res);
+    //     setPosts(res);
+    //   });
+    fetch('/api/posts/')
       .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        setPosts(res);
-      });
-  };
+      .then((res) => console.log(res));
+  }, []);
 
   if (!posts) {
     return <div>Loading...</div>;
@@ -27,12 +30,7 @@ const Postfeed = () => {
     );
   });
 
-  return (
-    <div>
-      {getPosts}
-      {renderedList}
-    </div>
-  );
+  return <div>{renderedList}</div>;
 };
 
 export default Postfeed;
