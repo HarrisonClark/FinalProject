@@ -6,15 +6,17 @@ const Postfeed = () => {
 
   useEffect(() => {
     if (posts) {
-      setPosts(posts.map(post => {
-        fetch('/api/user/' + post.userId)
-        .then(res => res.json())
-        .then(res => {{...post, res.userName}}
-          )
-        
-      }))
+      setPosts(
+        posts.map((post) => {
+          fetch('/api/user/' + post.userId)
+            .then((res) => res.json())
+            .then((res) => {
+              post.username = res.userName;
+            });
+        })
+      );
     }
-  })
+  }, [posts]);
 
   useEffect(() => {
     fetch(`/api/posts/`)
@@ -30,12 +32,16 @@ const Postfeed = () => {
   }
 
   const renderedList = posts.map((post) => {
+    if (!post) {
+      return <div></div>;
+    }
+    console.log(post);
     return (
       <ul style={{ listStyleType: 'none' }}>
         <li>
           <SinglePost
             key={post.id}
-            username={post.userId}
+            username={post.username}
             text={post.caption}
             image={post.image}
           />

@@ -11,6 +11,9 @@ function App() {
     body: JSON.stringify({ caption: 'Hello', userId: 1 }),
   });
 
+  fetch('/api/posts/')
+    .then((res) => res.json())
+    .then((res) => console.log(res));
   return <div></div>;
 }
 
