@@ -15,6 +15,7 @@ const Postfeed = () => {
       .then((snapshot) => {
         snapshot.forEach((post) => {
           let run = async () => {
+            let id = post.id;
             post = post.data();
             console.log(post);
             let username = await db
@@ -22,9 +23,9 @@ const Postfeed = () => {
               .doc(post.author)
               .get()
               .then((snapshot) => {
-                return snapshot.username;
+                return snapshot.data().username;
               });
-            let newPost = { id: post.id, username, ...post };
+            let newPost = { id: id, username, ...post };
             console.log(newPost);
             setPosts((posts) => [...posts, newPost]);
           };
@@ -39,20 +40,23 @@ const Postfeed = () => {
 
   const renderedList = posts.map((post) => {
     return (
-      <ul style={{ listStyleType: 'none' }}>
-        <li>
-          <SinglePost
-            key={post.id}
-            username={post.username}
-            text={post.caption}
-            image={post.image}
-          />
-        </li>
-      </ul>
+      <li key={post.id}>
+        <SinglePost
+          key={post.id}
+          username={post.username}
+          text={post.caption}
+          image={post.image}
+        />
+      </li>
     );
   });
 
-  return <div>{renderedList}</div>;
+  return (
+    <div>
+      {' '}
+      <ul style={{ listStyleType: 'none' }}>{renderedList} </ul>
+    </div>
+  );
 };
 
 export default Postfeed;
