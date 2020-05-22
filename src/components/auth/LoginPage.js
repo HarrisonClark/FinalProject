@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Paper from '../Paper';
 import { Button, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import firebase from '../../firebase';
+import { useHistory } from 'react-router-dom';
+import { useUidContext } from '../UidContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,19 +16,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginPage = () => {
+  let history = useHistory();
+  const { authenticated } = useUidContext();
+  if (authenticated) {
+    history.push('/');
+  }
+
   const classes = useStyles();
 
-  const [username, setuserName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(username);
-    fetch(`/api/user/:${username}`)
-      .then((res) => res.json())
-      .then((res) => console.log(res));
-    setuserName('');
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode === 'auth/wrong-password') {
+          alert('Wrong password.');
+        } else {
+          alert(errorMessage);
+        }
+        console.log(error);
+      });
+    setEmail('');
     setPassword('');
   };
 
@@ -41,11 +61,11 @@ const LoginPage = () => {
           required
           size="small"
           id="outlined-required"
-          label="Username"
+          label="Email"
           variant="outlined"
-          value={username}
+          value={email}
           onChange={(e) => {
-            setuserName(e.target.value);
+            setEmail(e.target.value);
           }}
         />
         <TextField
