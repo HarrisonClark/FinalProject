@@ -1,29 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import SinglePost from './SinglePost';
+import firebase from '../../firebase';
+
+const db = firebase.firestore();
 
 const Postfeed = () => {
-  const [posts, setPosts] = useState(null);
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    if (posts) {
-      setPosts(
-        posts.map((post) => {
-          fetch('/api/user/' + post.userId)
-            .then((res) => res.json())
-            .then((res) => {
-              post.username = res.userName;
-            });
-        })
-      );
-    }
-  }, [posts]);
+    setPosts([]);
 
-  useEffect(() => {
-    fetch(`/api/posts/`)
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        setPosts(res);
+    db.collection('posts')
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((post) => {
+          let run = async () => {
+            post = post.data();
+            console.log(post);
+            let username = await db
+              .collection('users')
+              .doc(post.author)
+              .get()
+              .then((snapshot) => {
+                return snapshot.data().username;
+              });
+            let newPost = { id: post.id, username, ...post };
+            console.log(newPost);
+            setPosts((posts) => [...posts, newPost]);
+          };
+          run();
+        });
       });
   }, []);
 
@@ -32,10 +38,6 @@ const Postfeed = () => {
   }
 
   const renderedList = posts.map((post) => {
-    if (!post) {
-      return <div></div>;
-    }
-    console.log(post);
     return (
       <ul style={{ listStyleType: 'none' }}>
         <li>

@@ -4,13 +4,15 @@ import SinglePost from './components/home/SinglePost';
 import Postfeed from './components/home/Postfeed';
 import ProfilePage from './components/profile/ProfilePage';
 import LoginPage from './components/auth/LoginPage';
+import { UidProvider } from './components/UidContext';
+import SignupPage from './components/auth/SignupPage';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 
 function App() {
   return (
-    <div>
+    <UidProvider>
       <Router>
         <Nav />
         <Typography variant="h4" gutterBottom align="center" color="primary">
@@ -22,6 +24,9 @@ function App() {
           </Route>
           <Route path="/login">
             <LoginPage />
+          </Route>
+          <Route path="/signup">
+            <SignupPage />
           </Route>
           <Route path="/logout">
             <LoginPage />
@@ -36,7 +41,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
-    </div>
+    </UidProvider>
   );
 }
 

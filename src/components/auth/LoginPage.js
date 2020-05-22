@@ -47,7 +47,7 @@ const LoginPage = () => {
         }}
       />
       <Button onSubmit={handleSubmit} variant="contained" color="primary">
-        Sign In
+        Log In
       </Button>
     </form>
   );
