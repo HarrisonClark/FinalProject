@@ -6,11 +6,15 @@ const CreatePost = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('post');
+    console.log(post);
   };
 
   return (
-    <form style={{ direction: 'flex-container' }} align="center">
+    <form
+      onSubmit={handleSubmit}
+      style={{ direction: 'flex-container' }}
+      align="center"
+    >
       <div>
         <TextField
           // fullWidth
@@ -30,7 +34,7 @@ const CreatePost = () => {
           variant="contained"
           color="primary"
           text-transform="none"
-          onSubmit={handleSubmit}
+          type="submit"
         >
           Post
         </Button>
