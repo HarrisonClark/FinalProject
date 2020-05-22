@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import firebase from '../../firebase';
 import { useUidContext } from '../UidContext';
-
+import { useHistory } from 'react-router-dom';
 const db = firebase.firestore();
 // likes and comments as two empty arrays
 
@@ -10,6 +10,7 @@ const CreatePost = () => {
   const [post, setPost] = useState('');
   const [media, setMedia] = useState('');
   const { uid, authenticated } = useUidContext();
+  let history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,6 +25,7 @@ const CreatePost = () => {
     });
 
     setPost('');
+    history.push('/');
   };
 
   return (

@@ -19,7 +19,7 @@ function App() {
         </Typography>
         <Switch>
           <Route path="/profile">
-            <ProfilePage first="Rebecca" last="Zhou" username="rmz" />
+            <ProfilePage />
           </Route>
           <Route path="/login">
             <LoginPage />
