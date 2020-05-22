@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   TextField,
@@ -11,6 +11,9 @@ import {
   CardMedia,
 } from '@material-ui/core';
 import { FavoriteBorder, Favorite, SendRounded } from '@material-ui/icons';
+import firebase from '../../firebase';
+import { useUidContext } from '../UidContext';
+let db = firebase.firestore();
 
 const useStyles = makeStyles({
   root: {
@@ -18,9 +21,9 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SinglePost({ username, text, image }) {
+export default function SinglePost({ id, username, text, image }) {
   const classes = useStyles();
-
+  const { uid, authenticated } = useUidContext();
   const [comment, setComment] = useState('');
   const [liked, setLiked] = useState(false);
 
@@ -30,6 +33,38 @@ export default function SinglePost({ username, text, image }) {
     if (!comment) alert('You must enter a comment before posting!');
     console.log(comment);
     setComment('');
+  };
+
+  useEffect(() => {
+    db.collection('posts')
+      .doc(id)
+      .get()
+      .then((post) => {
+        let likes = post.data().likes;
+        setLiked(likes.includes(uid));
+      });
+  }, [id, uid]);
+
+  const toggleLike = async () => {
+    if (!authenticated) {
+      alert('You must be logged in like');
+    }
+    let post = await db.collection('posts').doc(id).get();
+    let likes = post.data().likes;
+    let alreadyLiked = likes.includes(uid);
+    if (alreadyLiked) {
+      await db
+        .collection('posts')
+        .doc(id)
+        .update({ likes: likes.filter((like) => like !== uid) });
+      setLiked(false);
+    } else {
+      await db
+        .collection('posts')
+        .doc(id)
+        .update({ likes: [...likes, uid] });
+      setLiked(true);
+    }
   };
 
   return (
@@ -52,7 +87,7 @@ export default function SinglePost({ username, text, image }) {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button onClick={() => setLiked(!liked)} size="small" color="primary">
+          <Button onClick={toggleLike} size="small" color="primary">
             {liked ? <Favorite /> : <FavoriteBorder />}
           </Button>
           <Button size="small" color="primary">

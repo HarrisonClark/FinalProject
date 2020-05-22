@@ -47,10 +47,11 @@ const Postfeed = () => {
     return (
       <li key={post.id}>
         <SinglePost
-          key={post.id}
+          id={post.id}
           username={post.username}
           text={post.caption}
           image={post.image}
+          comments={post.comments}
         />
         <br />
       </li>
