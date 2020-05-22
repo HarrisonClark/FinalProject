@@ -1,5 +1,6 @@
 import React from 'react';
 import Paper from '../Paper';
+import CreatePost from './CreatePost';
 
 const ProfilePage = ({ first, last, username }) => {
   const content = (
@@ -7,6 +8,7 @@ const ProfilePage = ({ first, last, username }) => {
       {first} {last}
       <br />
       Welcome {username}!
+      <CreatePost />
     </div>
   );
   return <Paper content={content} />;

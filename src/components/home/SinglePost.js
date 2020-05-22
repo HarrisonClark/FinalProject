@@ -10,12 +10,7 @@ import {
   CardContent,
   CardMedia,
 } from '@material-ui/core';
-import {
-  FavoriteBorder,
-  Favorite,
-  ChatBubbleOutlineRounded,
-  SendRounded,
-} from '@material-ui/icons';
+import { FavoriteBorder, Favorite, SendRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   root: {
@@ -29,6 +24,7 @@ export default function SinglePost({ username, text, image }) {
   const [comment, setComment] = useState('');
   const [liked, setLiked] = useState(false);
 
+  // post to API
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!comment) alert('You must enter a comment before posting!');
@@ -43,10 +39,9 @@ export default function SinglePost({ username, text, image }) {
           <CardContent>{username}</CardContent>
           <CardMedia
             component="img"
-            alt="Contemplative Reptile"
+            alt={username}
             height="140"
             image={image}
-            title="Contemplative Reptile"
           />
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
@@ -58,39 +53,12 @@ export default function SinglePost({ username, text, image }) {
           <Button onClick={() => setLiked(!liked)} size="small" color="primary">
             {liked ? <Favorite /> : <FavoriteBorder />}
           </Button>
-          {/* <Button size="small" color="primary">
-            <ChatBubbleOutlineRounded />
-          </Button> */}
           <Button size="small" color="primary">
             <SendRounded />
           </Button>
         </CardActions>
-        <div className="flex-container">
-          <div>
-            <TextField
-              // fullWidth
-              multiline
-              variant="outlined"
-              size="small"
-              label="Enter comment..."
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            />
-          </div>
-          <div>
-            <Button
-              size="small"
-              variant="contained"
-              color="primary"
-              text-transform="none"
-              onClick={handleSubmit}
-            >
-              Post
-            </Button>
-          </div>
-        </div>
 
-        {/* <form>
+        <form>
           <TextField
             // fullWidth
             multiline
@@ -109,7 +77,7 @@ export default function SinglePost({ username, text, image }) {
           >
             Post
           </Button>
-        </form> */}
+        </form>
       </Card>
     </div>
   );
