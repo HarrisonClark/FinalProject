@@ -3,6 +3,8 @@ import Paper from '../Paper';
 import { Button, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import firebase from '../../firebase';
+import { useUidContext } from '../UidContext';
+const db = firebase.firestore();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,8 +18,10 @@ const useStyles = makeStyles((theme) => ({
 const SignupPage = () => {
   const classes = useStyles();
 
+  const { uid } = useUidContext();
+
   const [email, setEmail] = useState('');
-  const [username, setuserName] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
@@ -26,6 +30,11 @@ const SignupPage = () => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        if (uid) {
+          db.collection('users').doc(uid).set({ username });
+        }
+      })
       .catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
@@ -52,6 +61,16 @@ const SignupPage = () => {
           setEmail(e.target.value);
         }}
         value={email}
+      />
+      <TextField
+        required
+        id="outlined-required"
+        label="username"
+        variant="outlined"
+        onChange={(e) => {
+          setUsername(e.target.value);
+        }}
+        value={username}
       />
       <TextField
         required
