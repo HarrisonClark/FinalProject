@@ -37,12 +37,14 @@ export default function SinglePost({ username, text, image }) {
       <Card align="left" className={classes.root}>
         <CardActionArea>
           <CardContent>{username}</CardContent>
-          <CardMedia
-            component="img"
-            alt={username}
-            height="140"
-            image={image}
-          />
+          {image ? (
+            <CardMedia
+              component="img"
+              alt={username}
+              height="140"
+              image={image}
+            />
+          ) : null}
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
               {text}

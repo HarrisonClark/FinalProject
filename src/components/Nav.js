@@ -40,10 +40,10 @@ const Nav = () => {
             Profile
             <AccountBox className={classes.icon} />
           </Link>
-          <Link to="/dm" className={classes.link}>
+          {/* <Link to="/dm" className={classes.link}>
             DMs
             <SendRounded className={classes.icon} />
-          </Link>
+          </Link> */}
         </Breadcrumbs>
         <Breadcrumbs aria-label="breadcrumb">
           <Link to="/login" className={classes.link}>
