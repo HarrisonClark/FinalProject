@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import SinglePost from './SinglePost';
 import firebase from '../../firebase';
+import Loader from '../../Loader';
 
 const db = firebase.firestore();
-import Loader from '../../Loader';
 
 const Postfeed = () => {
   const [posts, setPosts] = useState([]);
