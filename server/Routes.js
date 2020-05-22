@@ -1,6 +1,21 @@
+// import { createUser, checkIfAuthenticated } from './auth.js';
+var { createUser, checkIfAuthenticated } = require('./auth.js');
 var models = require('./InitDB');
 var express = require('express');
 var app = express.Router();
+
+// Creating a Post
+app.post('/api/createpost/', (req, res) => {
+  console.log('CREATING POSTS');
+  console.log(req.body);
+  const run = async () => {
+    var { caption, userId } = req.body;
+    await models.post.create({ caption, userId });
+    console.log('CREATED?' + caption + userId);
+    return res.json({ status: 'SUCCESS' });
+  };
+  run().catch((e) => console.log(e));
+});
 
 // Fetch Recent Posts
 app.get('/api/posts/', (req, res) => {
@@ -10,6 +25,10 @@ app.get('/api/posts/', (req, res) => {
     return res.json(recentPosts);
   };
   run().catch((e) => console.log(e));
+});
+
+app.get('/api/testauth', checkIfAuthenticated, async (req, res) => {
+  return res.send('Success?');
 });
 
 // Fetch Single Post

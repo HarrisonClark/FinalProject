@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const path = require('path');
-
 var routes = require('./server/Routes');
+
+app.use(express.json());
 
 app.use('/', routes);
 
