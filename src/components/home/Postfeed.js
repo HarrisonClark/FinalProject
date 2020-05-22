@@ -3,12 +3,24 @@ import SinglePost from './SinglePost';
 import firebase from '../../firebase';
 
 const db = firebase.firestore();
+import Loader from '../../Loader';
 
 const Postfeed = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     setPosts([]);
+    // useEffect(() => {
+    //   if (posts) {
+    //     setPosts(posts.map(post => {
+    //       fetch('/api/user/' + post.userId)
+    //       .then(res => res.json())
+    //       .then(res => {{...post, res.userName}}
+    //         )
+
+    //     }))
+    //   }
+    // }, []);
 
     db.collection('posts')
       .get()
@@ -34,7 +46,11 @@ const Postfeed = () => {
   }, []);
 
   if (!posts) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
   }
 
   const renderedList = posts.map((post) => {
