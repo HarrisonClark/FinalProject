@@ -1,12 +1,29 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
+import firebase from '../../firebase';
+import { useUidContext } from '../UidContext';
+
+const db = firebase.firestore();
+// likes and comments as two empty arrays
 
 const CreatePost = () => {
   const [post, setPost] = useState('');
+  const [media, setMedia] = useState('');
+  const { uid, authenticated } = useUidContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(post);
+
+    db.collection('posts').add({
+      author: uid,
+      caption: post,
+      comments: [],
+      likes: [],
+      media: media,
+    });
+
+    setPost('');
   };
 
   return (
