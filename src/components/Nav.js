@@ -46,6 +46,9 @@ const Nav = () => {
           </Link> */}
         </Breadcrumbs>
         <Breadcrumbs aria-label="breadcrumb">
+          <Link to="/signup" className={classes.link}>
+            Sign Up
+          </Link>
           <Link to="/login" className={classes.link}>
             Login
           </Link>
