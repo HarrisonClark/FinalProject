@@ -51,41 +51,53 @@ const SignupPage = () => {
   };
 
   const content = (
-    <form align="center" className={classes.root} onSubmit={handleSubmit}>
-      <TextField
-        required
-        id="outlined-required"
-        label="Email"
-        variant="outlined"
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-        value={email}
-      />
-      <TextField
-        required
-        id="outlined-required"
-        label="username"
-        variant="outlined"
-        onChange={(e) => {
-          setUsername(e.target.value);
-        }}
-        value={username}
-      />
-      <TextField
-        required
-        id="outlined-required"
-        type="password"
-        label="Password"
-        variant="outlined"
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-        value={password}
-      />
-      <Button type="submit" variant="contained" color="primary">
-        Sign Up
-      </Button>
+    <form
+      style={{ direction: 'flex-container' }}
+      align="center"
+      className={classes.root}
+      onSubmit={handleSubmit}
+    >
+      <div>
+        <TextField
+          required
+          size="small"
+          id="outlined-required"
+          label="Email"
+          variant="outlined"
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+          value={email}
+        />
+        <TextField
+          required
+          size="small"
+          id="outlined-required"
+          label="username"
+          variant="outlined"
+          onChange={(e) => {
+            setUsername(e.target.value);
+          }}
+          value={username}
+        />
+        <TextField
+          required
+          size="small"
+          id="outlined-required"
+          type="password"
+          label="Password"
+          variant="outlined"
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+          value={password}
+        />
+      </div>
+      <div>
+        <Button type="submit" variant="contained" color="primary" size="small">
+          Sign Up
+        </Button>
+      </div>
     </form>
   );
 
