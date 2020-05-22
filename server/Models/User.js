@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Users = sequelize.define("Users", {
+  const User = sequelize.define('user', {
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -22,5 +22,10 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  return Users;
+  User.associate = (db) => {
+    db.comment.belongsTo(db.user);
+    db.post.belongsTo(db.user);
+  };
+
+  return User;
 };

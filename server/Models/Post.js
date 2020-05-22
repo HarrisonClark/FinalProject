@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Posts = sequelize.define("Posts", {
+  const Post = sequelize.define('post', {
     caption: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -18,5 +18,10 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  return Posts;
+  Post.associate = (db) => {
+    db.comment.belongsTo(db.post);
+    db.user.hasMany(db.post);
+  };
+
+  return Post;
 };

@@ -1,35 +1,47 @@
-var db = require("./Models");
 const DEVELOPMENT = true;
+var db = require('./Models');
 
 const initDatabaseConnection = async () => {
   await db.sequelize.authenticate();
-  console.log("DB Authenticated!");
-
-  db.Users.hasMany(db.Posts, { as: "posts" });
-  db.Users.hasMany(db.Comments, { as: "comments" });
-
-  db.Comments.belongsTo(db.Users);
-  db.Comments.belongsTo(db.Posts);
-  db.Posts.belongsTo(db.Users);
+  console.log('DB Authenticated!');
 
   if (DEVELOPMENT) {
     await db.sequelize.sync({ force: true });
-    let hc = db.Users.create({
-      firstName: "Harrison",
-      lastName: "Clark",
-      userName: "HarrisonC",
-      email: "harrison.clark99@gmail.com",
+
+    let hc = await db.user.create({
+      firstName: 'Harrison',
+      lastName: 'Clark',
+      userName: 'HarrisonC',
+      email: 'harrison.clark99@gmail.com',
     });
-    let post = db.Posts.create({ caption: "Hello, World", UsersId: hc.id });
-    db.Comments.create({
-      comment: "This is a teset comment",
-      UsersId: hc.id,
-      PostsId: post.id,
+    let post = await db.post.create({ caption: 'hello, world', userId: hc.id });
+    await db.comment.create({
+      comment: 'This is a teset comment',
+      userId: hc.id,
+      postId: post.id,
+    });
+
+    let u2 = await db.user.create({
+      firstName: 'Rebecca',
+      lastName: 'Zhou',
+      userName: 'RebeccaZ',
+      email: 'rebecca@gmail.com',
+    });
+    await db.post.create({
+      caption: 'another comment',
+      userId: u2.id,
+    });
+    await db.comment.create({
+      comment: 'This is a 2nd test comment',
+      userId: u2.id,
+      postId: post.id,
     });
   }
 
-  await db.sequelize.sync(); //{ force: true } to clear
-  console.log("Succesfully synced!");
+  console.log('Succesfully synced!');
+
+  return db;
 };
 
-module.exports = initDatabaseConnection;
+initDatabaseConnection();
+module.exports = db;
