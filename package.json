@@ -20,7 +20,7 @@
     "react-firebase": "^2.2.8",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "sequelize": "^5.21.10"
+    "sequelize": "^6.29.0"
   },
   "scripts": {
     "start": "node server.js",
